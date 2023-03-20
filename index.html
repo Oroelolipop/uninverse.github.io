@@ -1,65 +1,87 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Login</title>
+    <title>Chat Room</title>
     <style>
-      /* Styling for the login form */
-      form {
-        margin: 20px auto;
-        width: 300px;
+      /* Styling for the chat room */
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      #chat-window {
+        display: flex;
+        flex-direction: column;
+        height: 80vh;
         padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        text-align: center;
+        background-color: #f2f2f2;
       }
-      label {
-        display: block;
+      #chat-window > div {
         margin-bottom: 10px;
-        text-align: left;
       }
-      input[type="email"],
-      input[type="password"] {
-        display: block;
-        margin-bottom: 20px;
-        width: 100%;
+      #chat-window > div span {
+        font-weight: bold;
+        margin-right: 10px;
+      }
+      #message-input {
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #f2f2f2;
         padding: 10px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
       }
-      input[type="submit"] {
+      #message-input input[type="text"] {
+        flex-grow: 1;
+        margin-right: 10px;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+      #message-input input[type="submit"] {
         background-color: #4CAF50;
         color: white;
         padding: 10px 20px;
         border-radius: 5px;
         border: none;
         cursor: pointer;
+        font-size: 16px;
       }
-      input[type="submit"]:hover {
+      #message-input input[type="submit"]:hover {
         background-color: #45a049;
       }
     </style>
   </head>
   <body>
-    <form>
-      <h1>Login</h1>
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email"><br>
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password"><br>
-      <input type="submit" value="Log in">
-    </form>
+    <div id="chat-window"></div>
+    <div id="message-input">
+      <input type="text" id="message" placeholder="Type your message here...">
+      <input type="submit" value="Send">
+    </div>
     <script>
-      // Code for handling form submission
-      const form = document.querySelector('form');
-      form.addEventListener('submit', (event) => {
-        event.preventDefault(); // Prevent the form from submitting and refreshing the page
-        const email = form.elements.email.value;
-        const password = form.elements.password.value;
-        if (email === "Isaguna2007@gmail.com" && password === "isalaisafool") {
-          window.location.href = "https://example.com/dashboard"; // Redirect to dashboard if credentials are correct
-        } else {
-          alert("Incorrect email or password"); // Display an error message if credentials are incorrect
+      // Code for handling chat messages
+      const chatWindow = document.getElementById('chat-window');
+      const messageInput = document.getElementById('message');
+      const sendMessage = () => {
+        const message = messageInput.value.trim();
+        if (message !== '') {
+          const chatBubble = document.createElement('div');
+          chatBubble.innerHTML = `<span>You:</span> ${message}`;
+          chatWindow.appendChild(chatBubble);
+          chatWindow.scrollTop = chatWindow.scrollHeight; // Auto-scroll to the bottom of the chat window
+          messageInput.value = '';
         }
+      };
+      messageInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          event.preventDefault(); // Prevent the form from submitting and refreshing the page
+          sendMessage();
+        }
+      });
+      document.querySelector('input[type="submit"]').addEventListener('click', (event) => {
+        event.preventDefault(); // Prevent the form from submitting and refreshing the page
+        sendMessage();
       });
     </script>
   </body>
